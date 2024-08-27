@@ -1,0 +1,18 @@
+import { EmailService } from './emailService';
+
+describe('EmailService', () => {
+    let emailService: EmailService;
+
+    beforeEach(() => {
+        emailService = new EmailService();
+    });
+
+    test('should send email successfully with one provider', async () => {
+        await expect(emailService.sendEmail('test@example.com', 'Subject', 'Body')).resolves.toBeUndefined();
+    });
+
+    test('should retry and fallback to another provider', async () => {
+        jest.spyOn(emailService, 'sendEmail').mockImplementation(async () => { throw new Error('Fail'); });
+        await expect(emailService.sendEmail('test@example.com', 'Subject', 'Body')).rejects.toThrow('Failed to send email after multiple attempts.');
+    });
+});
