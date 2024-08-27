@@ -1,0 +1,8 @@
+import { EmailService } from './emailService';
+
+const emailService = new EmailService();
+emailService.sendEmail('test@example.com', 'Subject', 'Body').then(() => {
+    console.log('Email sent!');
+}).catch(err => {
+    console.error('Error sending email:', err);
+});
